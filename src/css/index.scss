@@ -1,0 +1,127 @@
+$z-index-top: 1000;
+
+$black: #0a1324;
+$bg: #fff;
+$border-color: #e9eff5;
+
+$base-size: 1px;
+
+@function size($val: 1) {
+  @return $base-size * $val;
+}
+
+$border-radius: size(2);
+$arrow-delta: size(15);
+$pseudoSize: size(6);
+
+$shadow: 0 size(1) size(5) darken($border-color, 10);
+
+@mixin pseudo($bg: $border-color, $direction: top, $borderWidth: $pseudoSize) {
+  position: absolute;
+  #{$direction}: -$pseudoSize;
+  width: 0;
+  height: 0;
+  border: $borderWidth solid transparent;
+
+  @if ($direction==top) {
+    border-top: 0;
+    border-bottom-color: $bg;
+  } @else if ($direction==bottom) {
+    border-bottom: 0;
+    border-top-color: $bg;
+  } @else if ($direction==left) {
+    border-left: 0;
+    border-right-color: $bg;
+  } @else if ($direction==right) {
+    border-right: 0;
+    border-left-color: $bg;
+  }
+}
+
+.react-popper {
+  z-index: $z-index-top;
+  margin: size(10) 0 0;
+  border-radius: $border-radius;
+  background: #fff;
+  box-shadow: $shadow;
+
+  &.force-show {
+    display: block !important;
+  }
+
+  &.show {
+    display: block;
+  }
+
+  &.hide {
+    display: none;
+  }
+
+  &.black {
+    background: $black;
+    color: $bg;
+
+    @each $placement, $pos, $pseudoPos in (top, bottom, left),
+      (bottom, top, left), (left, right, top), (right, left, top)
+    {
+      &[data-placement^='#{$placement}'] {
+        .arrow {
+          @include pseudo($border-color, $black);
+
+          &:before {
+            content: none;
+          }
+        }
+      }
+    }
+  }
+
+  &.tool-tip {
+    padding: size(5) size(15);
+  }
+
+  @each $placement, $arr-placement, $pseudoPos in (top, bottom, left),
+    (bottom, top, left), (left, right, top), (right, left, top)
+  {
+    &[data-placement^='#{$placement}'] {
+      margin-#{$arr-placement}: size(1);
+
+      .arrow {
+        @include pseudo($border-color, $arr-placement);
+
+        @each $pos in start, end {
+          &[data-placement*='#{$pos}'] {
+            @if ($pos==start) {
+              @if ($placement==top) {
+                transform: translate($arrow-delta, 0);
+              } @else if ($placement==bottom) {
+                transform: translate($arrow-delta, 0);
+              } @else if ($placement==left) {
+                transform: translate(0, $arrow-delta);
+              } @else if ($placement==right) {
+                transform: translate(0, $arrow-delta);
+              }
+            } @else if ($pos==end) {
+              @if ($placement==top) {
+                transform: translate(-$arrow-delta, 0);
+              } @else if ($placement==bottom) {
+                transform: translate(-$arrow-delta, 0);
+              } @else if ($placement==left) {
+                transform: translate(0, -$arrow-delta);
+              } @else if ($placement==right) {
+                transform: translate(0, -$arrow-delta);
+              }
+            }
+          }
+        }
+
+        &:before {
+          content: '';
+          @include pseudo($bg, $arr-placement);
+          #{$pseudoPos}: -$pseudoSize;
+          #{$arr-placement}: 1px;
+        }
+      }
+    }
+  }
+}
