@@ -50,14 +50,6 @@ export interface ReactPopperProps {
   positionFixed?: PopperProps['positionFixed']
 }
 
-export interface PopperRefProps {
-  show(): void
-
-  hide(): void
-
-  toggle(): void
-}
-
 function containsOrEqual<T extends PopperProps['referenceElement']>(
   parent: T,
   target?: HTMLElement,
@@ -93,7 +85,7 @@ export default class ReactPopper extends Component<
   }
 
   private get isHover() {
-    return this.props.trigger !== TriggerType.hover
+    return this.props.trigger === TriggerType.hover
   }
 
   private get eventName() {

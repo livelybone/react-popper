@@ -50,14 +50,6 @@ interface ReactPopperProps {
   positionFixed?: PopperProps['positionFixed']
 }
 
-interface PopperRefProps {
-  show(): void
-
-  hide(): void
-
-  toggle(): void
-}
-
 declare class ReactPopper extends Component<
   ReactPopperProps,
   {
@@ -105,4 +97,4 @@ declare class ReactPopper extends Component<
 }
 
 export default ReactPopper
-export { PopperRefProps, ReactPopperProps, TriggerType }
+export { ReactPopperProps, TriggerType }

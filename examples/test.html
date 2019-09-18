@@ -44,8 +44,9 @@ function Comp(props) {
     },
     [
       'parent',
-      cr(ReactPopper, {
+      cr(ReactPopper.default, {
         ref: popper,
+        trigger: ReactPopper.TriggerType.hover,
       }, 'popper'),
     ]
   )
