@@ -61,12 +61,12 @@ $shadow: 0 size(1) size(5) darken($border-color, 10);
     background: $black;
     color: $bg;
 
-    @each $placement, $pos, $pseudoPos in (top, bottom, left),
+    @each $placement, $arr-position, $pseudoPos in (top, bottom, left),
       (bottom, top, left), (left, right, top), (right, left, top)
     {
       &[data-placement^='#{$placement}'] {
         .arrow {
-          @include pseudo($border-color, $black);
+          @include pseudo($black, $arr-position);
 
           &:before {
             content: none;
@@ -80,14 +80,14 @@ $shadow: 0 size(1) size(5) darken($border-color, 10);
     padding: size(5) size(15);
   }
 
-  @each $placement, $arr-placement, $pseudoPos in (top, bottom, left),
+  @each $placement, $arr-position, $pseudoPos in (top, bottom, left),
     (bottom, top, left), (left, right, top), (right, left, top)
   {
     &[data-placement^='#{$placement}'] {
-      margin-#{$arr-placement}: size(1);
+      margin-#{$arr-position}: size(1);
 
       .arrow {
-        @include pseudo($border-color, $arr-placement);
+        @include pseudo($border-color, $arr-position);
 
         @each $pos in start, end {
           &[data-placement*='#{$pos}'] {
@@ -117,9 +117,9 @@ $shadow: 0 size(1) size(5) darken($border-color, 10);
 
         &:before {
           content: '';
-          @include pseudo($bg, $arr-placement);
+          @include pseudo($bg, $arr-position);
           #{$pseudoPos}: -$pseudoSize;
-          #{$arr-placement}: 1px;
+          #{$arr-position}: 1px;
         }
       }
     }

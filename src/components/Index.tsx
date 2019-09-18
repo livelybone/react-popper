@@ -178,9 +178,11 @@ export default class ReactPopper extends Component<
     clearTimeout(this.timer)
     if (!containsOrEqual(this.popperRef, ev.target)) {
       if (!containsOrEqual(this.referenceEl, ev.target)) {
-        this.timer = setTimeout(() => {
-          this.hide()
-        }, 200)
+        if (this.isHover) {
+          this.timer = setTimeout(() => {
+            this.hide()
+          }, 200)
+        } else this.hide()
       } else if (this.isHover) {
         this.show()
       } else {
