@@ -5,17 +5,6 @@ import resolve from 'rollup-plugin-node-resolve'
 
 export default {
   plugins: [
-    {
-      name: 'replace',
-      transform(code) {
-        return {
-          code: code.replace(
-            /process\.env\.NODE_ENV/g,
-            JSON.stringify('production'),
-          ),
-        }
-      },
-    },
     resolve({
       extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
     }),

@@ -3,13 +3,15 @@ const { JSDOM } = require('jsdom')
 const React = require('react')
 const ReactDOM = require('react-dom')
 const { act } = require('react-dom/test-utils')
-const ReactPopper = require('../test-lib/index')
+const ReactPopper = require('../test-lib/index').default
 
 const dom = new JSDOM('')
 
 global.window = dom.window
 global.document = dom.window.document
+global.requestAnimationFrame = dom.window.requestAnimationFrame || (() => {})
 
+console.log(global.requestAnimationFrame)
 describe('index', () => {
   let container
 
@@ -25,7 +27,7 @@ describe('index', () => {
 
   it('', () => {
     act(() => {
-      ReactDOM.render(ReactPopper(), container)
+      ReactDOM.render(React.createElement(ReactPopper), container)
     })
     expect(container.querySelector('div')).to.not.equal(null)
   })

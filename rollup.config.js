@@ -38,6 +38,7 @@ const conf = entry => ({
     globals: {
       react: 'React',
       'react-dom': 'ReactDOM',
+      'react-popper': 'ReactPopper',
     },
   })),
   external: [
