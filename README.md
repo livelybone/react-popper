@@ -61,7 +61,7 @@ const Comp = (
   </div>
 )
 
-/** Control the component in outside */
+/** Control it outside the component */
 // show
 popper.show()
 
@@ -70,6 +70,35 @@ popper.hide()
 
 // toggle
 popper.toggle()
+```
+
+You can receive the popper props and the instance of the component in the children function 
+```typescript jsx
+import React from 'react'
+import ReactPopper, { PopperRefProps, ReactPopperProps, TriggerType } from '@livelybone/react-popper'
+import 'node_modules/@livelybone/react-popper/lib/css/index.scss'
+
+/** The popper auto show or hide when click the reference element */
+const Comp = (
+  <div className="reference">
+    <ReactPopper
+     className="custom-popper"
+     forceShow={false}
+     trigger={TriggerType.click}
+     placement="bottom-start"
+     positionFixed={true}
+     referenceRef={undefined}
+     modifiers={undefined}
+     >
+     {({popperRef, ...popperProps}) => {
+       return <>
+       popper text
+       <button onClick={() => popperRef.hide()}>hide the popper</button>
+       </>
+     }}
+    </ReactPopper>
+  </div>
+)
 ```
 
 Use in html, see what your can use in [CDN: unpkg](https://unpkg.com/@livelybone/react-popper/lib/umd/)

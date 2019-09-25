@@ -47,7 +47,10 @@ function Comp(props) {
       cr(ReactPopper.default, {
         ref: popper,
         trigger: ReactPopper.TriggerType.hover,
-      }, 'popper'),
+      }, (props) => {
+        window.popperRef = props.popperRef
+        return 'popper'
+      }),
     ]
   )
 }

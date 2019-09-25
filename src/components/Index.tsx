@@ -145,7 +145,8 @@ export default class ReactPopper extends Component<
         referenceElement={this.referenceEl}
         modifiers={modifiers}
       >
-        {({ ref, style, placement: $placement, arrowProps }) => {
+        {props => {
+          const { ref, style, placement: $placement, arrowProps } = props
           return (
             <div
               ref={(el: HTMLDivElement) => {
@@ -166,7 +167,9 @@ export default class ReactPopper extends Component<
                 ref={arrowProps.ref}
                 style={arrowProps.style}
               />
-              {children}
+              {typeof children === 'function'
+                ? children({ ...props, popperRef: this })
+                : children}
             </div>
           )
         }}
