@@ -74,10 +74,8 @@ declare class ReactPopper extends Component<
     isMounted: boolean
   }
 > {
-  private timer
   private popperRef?
   private arrowRef?
-  private scheduleUpdate
 
   constructor(props: ReactPopperProps)
 

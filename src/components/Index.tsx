@@ -8,7 +8,6 @@ export default class ReactPopper extends Component<
   ReactPopperProps,
   { visible: boolean; isMounted: boolean }
 > {
-  private timer: any = null
   private popperRef?: HTMLDivElement
   private arrowRef?: HTMLDivElement
 
@@ -140,14 +139,9 @@ export default class ReactPopper extends Component<
   }
 
   private eventHandler = (ev: any) => {
-    clearTimeout(this.timer)
     if (!containsOrEqual(this.popperRef, ev.target)) {
       if (!containsOrEqual(this.referenceEl, ev.target)) {
-        if (this.isHover) {
-          this.timer = setTimeout(() => {
-            this.hide()
-          }, 200)
-        } else this.hide()
+        this.hide()
       } else if (this.isHover) {
         this.show()
       } else {
