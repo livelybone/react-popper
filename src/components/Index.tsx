@@ -11,7 +11,6 @@ export default class ReactPopper extends Component<
   private timer: any = null
   private popperRef?: HTMLDivElement
   private arrowRef?: HTMLDivElement
-  private scheduleUpdate!: () => void
 
   constructor(props: ReactPopperProps) {
     super(props)
@@ -53,10 +52,7 @@ export default class ReactPopper extends Component<
    * <ReactPopper ref={compInstance => ref = compInstance}></ReactPopper>
    * ref.show()
    * */
-  show = () => {
-    this.scheduleUpdate()
-    this.setState({ visible: true })
-  }
+  show = () => this.setState({ visible: true })
 
   /**
    * Hide the popper
@@ -108,7 +104,7 @@ export default class ReactPopper extends Component<
             arrowProps,
             scheduleUpdate,
           } = props
-          this.scheduleUpdate = scheduleUpdate
+          scheduleUpdate()
           return (
             <div
               ref={(el: HTMLDivElement) => {

@@ -42,7 +42,11 @@ export function convertPos(
 
   const altSide = type === 'left' ? 'left' : 'top'
   const len = type === 'left' ? 'width' : 'height'
-  const offsetLen = type === 'left' ? 'offsetWidth' : 'offsetHeight'
+  const offsetSize = type === 'left' ? 'offsetWidth' : 'offsetHeight'
+  const clientSize = type === 'left' ? 'clientWidth' : 'clientHeight'
+  const size =
+    (arrowElement as HTMLElement)[offsetSize] ||
+    (arrowElement as HTMLElement)[clientSize]
 
   if (arrowPosition === 'start') {
     pos1 = arrowOffset + Math.max(0, -(popper[altSide] - reference[altSide]))
@@ -51,14 +55,11 @@ export function convertPos(
       Math.min(reference[len], popper[len]) -
       Math.min(0, popper[altSide] - reference[altSide]) -
       arrowOffset -
-      (arrowElement as HTMLElement)[offsetLen]
+      size
   } else if (pos < arrowOffset) {
     pos1 = arrowOffset
-  } else if (
-    pos >
-    popper[len] - (arrowElement as HTMLElement)[offsetLen] - arrowOffset
-  ) {
-    pos1 = popper[len] - (arrowElement as HTMLElement)[offsetLen] - arrowOffset
+  } else if (pos > popper[len] - size - arrowOffset) {
+    pos1 = popper[len] - size - arrowOffset
   } else {
     pos1 = pos
   }
