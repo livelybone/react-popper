@@ -1,69 +1,8 @@
-import React, { Component, ReactNode } from 'react'
-import { Popper, PopperProps } from 'react-popper'
-
-export enum TriggerType {
-  click,
-  hover,
-}
-
-export interface ReactPopperProps {
-  /**
-   * 强制显示 popper 组件
-   *
-   * Force to show the popper
-   * */
-  forceShow?: boolean
-  /**
-   * 关联 dom 元素用于控制 popper 是否显示的事件
-   *
-   * Determine what event of reference element will make the popper show or hide
-   *
-   * Default: TriggerType.click
-   * */
-  trigger?: TriggerType
-  className?: string
-  /**
-   * Popper 的位置
-   *
-   * Placement of popper
-   *
-   * Default: 'bottom-start'
-   * */
-  placement?: PopperProps['placement']
-  /**
-   * 关联元素
-   *
-   * Reference element
-   *
-   * Default: The parent element of the component element
-   * */
-  referenceRef?: PopperProps['referenceElement']
-  children?: ReactNode
-  /**
-   * Modifiers config of popperjs
-   * See in https://popper.js.org/popper-documentation.html#Popper.Defaults.modifiers
-   * */
-  modifiers?: PopperProps['modifiers']
-  /**
-   * Default: true
-   * */
-  positionFixed?: PopperProps['positionFixed']
-}
-
-function containsOrEqual<T extends PopperProps['referenceElement']>(
-  parent: T,
-  target?: HTMLElement,
-) {
-  if (!target || !(parent instanceof HTMLElement)) return false
-  return parent && (parent === target || parent.contains(target))
-}
-
-function getReferenceEl<T extends PopperProps['referenceElement']>(
-  popperRef?: HTMLElement,
-  referenceRef?: T,
-) {
-  return referenceRef || (popperRef && popperRef.parentElement) || undefined
-}
+import React, { Component } from 'react'
+import { Popper } from 'react-popper'
+import { arrowModifier } from '../utils/modifiers'
+import { ReactPopperProps, TriggerType } from '../utils/type'
+import { containsOrEqual, getReferenceEl } from '../utils/utils'
 
 export default class ReactPopper extends Component<
   ReactPopperProps,
@@ -71,6 +10,8 @@ export default class ReactPopper extends Component<
 > {
   private timer: any = null
   private popperRef?: HTMLDivElement
+  private arrowRef?: HTMLDivElement
+  private scheduleUpdate!: () => void
 
   constructor(props: ReactPopperProps) {
     super(props)
@@ -92,6 +33,18 @@ export default class ReactPopper extends Component<
     return this.isHover ? 'mouseover' : 'click'
   }
 
+  private get modifiers() {
+    const { modifiers, arrowOffset, arrowPosition } = this.props
+    return {
+      ...modifiers,
+      arrow: {
+        ...modifiers,
+        element: this.arrowRef,
+        fn: arrowModifier.bind(null, arrowPosition, arrowOffset),
+      },
+    }
+  }
+
   /**
    * Show the popper
    *
@@ -100,7 +53,10 @@ export default class ReactPopper extends Component<
    * <ReactPopper ref={compInstance => ref = compInstance}></ReactPopper>
    * ref.show()
    * */
-  show = () => this.setState({ visible: true })
+  show = () => {
+    this.scheduleUpdate()
+    this.setState({ visible: true })
+  }
 
   /**
    * Hide the popper
@@ -133,7 +89,6 @@ export default class ReactPopper extends Component<
       forceShow,
       children,
       positionFixed = true,
-      modifiers,
     } = this.props
 
     const { visible, isMounted } = this.state
@@ -143,10 +98,17 @@ export default class ReactPopper extends Component<
         positionFixed={positionFixed}
         placement={placement || 'bottom-start'}
         referenceElement={this.referenceEl}
-        modifiers={modifiers}
+        modifiers={this.modifiers}
       >
         {props => {
-          const { ref, style, placement: $placement, arrowProps } = props
+          const {
+            ref,
+            style,
+            placement: $placement,
+            arrowProps,
+            scheduleUpdate,
+          } = props
+          this.scheduleUpdate = scheduleUpdate
           return (
             <div
               ref={(el: HTMLDivElement) => {
@@ -164,7 +126,11 @@ export default class ReactPopper extends Component<
               <div
                 className="arrow"
                 data-placement={$placement}
-                ref={arrowProps.ref}
+                data-x-arrow={true}
+                ref={(arrowEl: HTMLDivElement) => {
+                  arrowProps.ref(arrowEl)
+                  this.arrowRef = arrowEl
+                }}
                 style={arrowProps.style}
               />
               {typeof children === 'function'

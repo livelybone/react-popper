@@ -55,6 +55,8 @@ const Comp = (
      referenceRef={undefined}
      modifiers={undefined}
      ref={p => popper = p}
+     arrowPosition="middle"
+     arrowOffset={15}
      >
      popper text
     </ReactPopper>
@@ -63,6 +65,7 @@ const Comp = (
 
 /** Control it outside the component */
 // show
+// warning: Do not use `popper.setState({ visible: true })`,  otherwise, a bug that the position of the popper do not update when needs to be updated will be cause
 popper.show()
 
 // hide
@@ -89,6 +92,8 @@ const Comp = (
      positionFixed={true}
      referenceRef={undefined}
      modifiers={undefined}
+     arrowPosition="middle"
+     arrowOffset={15}
      >
      {({popperRef, ...popperProps}) => {
        return <>
@@ -159,6 +164,22 @@ interface ReactPopperProps {
    * Default: true
    * */
   positionFixed?: PopperProps['positionFixed']
+  /**
+   * Arrow 箭头的问题
+   *
+   * Position of arrow
+   *
+   * Default: 'middle'
+   * */
+  arrowPosition?: 'start' | 'end' | 'middle'
+  /**
+   * Arrow 箭头的偏移量
+   *
+   * Position offset of arrow
+   *
+   * Default: 15
+   * */
+  arrowOffset?: number
 }
 
 interface PopperRefProps {

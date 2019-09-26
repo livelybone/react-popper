@@ -39,10 +39,13 @@ const conf = entry => ({
       react: 'React',
       'react-dom': 'ReactDOM',
       'react-popper': 'ReactPopper',
+      'popper.js': 'PopperJs',
     },
   })),
   external: [
-    ...(entry.external ? Object.keys(packageConf.dependencies || {}) : []),
+    ...(entry.external
+      ? [...Object.keys(packageConf.dependencies || {}), 'popper.js']
+      : []),
     'react',
     'react-dom',
   ],

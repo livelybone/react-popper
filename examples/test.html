@@ -9,6 +9,17 @@
   <script src="../lib/umd/index.js"></script>
   <link rel="stylesheet" href="../lib/css/index.css">
   <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #module {
+      position: relative;
+    }
+
     .react-popper {
       width: 30vw;
       min-height: 200px;
@@ -31,7 +42,8 @@ function Comp(props) {
   React.useEffect(() => {
     setTimeout(() => {
       if(popper.current) {
-        popper.current.setState({visible: true})
+        // popper.current.setState({visible: true})
+        popper.current.show()
         console.log(popper.current, popper.current.eventName)
       }
     }, 1000)
@@ -47,6 +59,8 @@ function Comp(props) {
       cr(ReactPopper.default, {
         ref: popper,
         trigger: ReactPopper.TriggerType.hover,
+        placement: 'bottom-start',
+        arrowPosition: 'end',
       }, (props) => {
         window.popperRef = props.popperRef
         return 'popper'
@@ -56,6 +70,14 @@ function Comp(props) {
 }
 
 ReactDOM.render(cr(Comp), module)
+
+let x = 0
+const timer = setInterval(() => {
+  document.getElementById('module').setAttribute('style', `left: ${x += 10}px`)
+  if(x > 100) {
+    clearInterval(timer)
+  }
+}, 1000)
 </script>
 </body>
 </html>

@@ -89,32 +89,6 @@ $shadow: 0 size(1) size(5) darken($border-color, 10);
       .arrow {
         @include pseudo($border-color, $arr-position);
 
-        @each $pos in start, end {
-          &[data-placement*='#{$pos}'] {
-            @if ($pos==start) {
-              @if ($placement==top) {
-                transform: translate($arrow-delta, 0);
-              } @else if ($placement==bottom) {
-                transform: translate($arrow-delta, 0);
-              } @else if ($placement==left) {
-                transform: translate(0, $arrow-delta);
-              } @else if ($placement==right) {
-                transform: translate(0, $arrow-delta);
-              }
-            } @else if ($pos==end) {
-              @if ($placement==top) {
-                transform: translate(-$arrow-delta, 0);
-              } @else if ($placement==bottom) {
-                transform: translate(-$arrow-delta, 0);
-              } @else if ($placement==left) {
-                transform: translate(0, -$arrow-delta);
-              } @else if ($placement==right) {
-                transform: translate(0, -$arrow-delta);
-              }
-            }
-          }
-        }
-
         &:before {
           content: '';
           @include pseudo($bg, $arr-position);

@@ -1,3 +1,4 @@
+import PopperJs from 'popper.js'
 import { Component, ReactNode } from 'react'
 import { PopperProps } from 'react-popper'
 
@@ -48,6 +49,22 @@ interface ReactPopperProps {
    * Default: true
    * */
   positionFixed?: PopperProps['positionFixed']
+  /**
+   * Arrow 箭头的问题
+   *
+   * Position of arrow
+   *
+   * Default: 'middle'
+   * */
+  arrowPosition?: 'start' | 'end' | 'middle'
+  /**
+   * Arrow 箭头的偏移量
+   *
+   * Position offset of arrow
+   *
+   * Default: 15
+   * */
+  arrowOffset?: number
 }
 
 declare class ReactPopper extends Component<
@@ -59,12 +76,15 @@ declare class ReactPopper extends Component<
 > {
   private timer
   private popperRef?
+  private arrowRef?
+  private scheduleUpdate
 
   constructor(props: ReactPopperProps)
 
   private readonly referenceEl
   private readonly isHover
   private readonly eventName
+  private readonly modifiers
   /**
    * Show the popper
    *
@@ -96,5 +116,37 @@ declare class ReactPopper extends Component<
   private eventHandler
 }
 
+declare function arrowModifier(
+  arrowPosition: ReactPopperProps['arrowPosition'],
+  arrowOffset: ReactPopperProps['arrowOffset'],
+  ...[dataObject, options]: Parameters<
+    NonNullable<NonNullable<PopperJs.Modifiers['arrow']>['fn']>
+  >
+): PopperJs.Data
+
+declare function convertPos(
+  data: PopperJs.Data,
+  type: 'left' | 'top',
+  arrowPosition?: ReactPopperProps['arrowPosition'],
+  arrowOffset?: ReactPopperProps['arrowOffset'],
+): number
+
+declare function containsOrEqual<T extends PopperProps['referenceElement']>(
+  parent: T,
+  target?: HTMLElement,
+): boolean
+
+declare function getReferenceEl<T extends PopperProps['referenceElement']>(
+  popperRef?: HTMLElement,
+  referenceRef?: T,
+): HTMLElement | T | undefined
+
 export default ReactPopper
-export { ReactPopperProps, TriggerType }
+export {
+  ReactPopperProps,
+  TriggerType,
+  arrowModifier,
+  containsOrEqual,
+  convertPos,
+  getReferenceEl,
+}
