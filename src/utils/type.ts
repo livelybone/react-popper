@@ -64,4 +64,10 @@ export interface ReactPopperProps {
    * Default: 15
    * */
   arrowOffset?: number
+  /**
+   * popper 显示/隐藏之后触发的回调
+   *
+   * The callback triggered after popper's show/hide
+   * */
+  afterToggle?(visible: boolean): void
 }

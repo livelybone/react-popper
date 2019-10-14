@@ -51,21 +51,27 @@ export default class ReactPopper extends Component<
    * <ReactPopper ref={compInstance => ref = compInstance}></ReactPopper>
    * ref.show()
    * */
-  show = () => this.setState({ visible: true })
+  show = () =>
+    this.setState({ visible: true }, this.afterToggle.bind(null, this.visible))
 
   /**
    * Hide the popper
    *
    * Use it outside the component: same as method show
    * */
-  hide = () => this.setState({ visible: false })
+  hide = () =>
+    this.setState({ visible: false }, this.afterToggle.bind(null, this.visible))
 
   /**
    * Toggle the popper
    *
    * Use it outside the component: same as method show
    * */
-  toggle = () => this.setState(preState => ({ visible: !preState.visible }))
+  toggle = () =>
+    this.setState(
+      preState => ({ visible: !preState.visible }),
+      this.afterToggle.bind(null, this.visible),
+    )
 
   componentDidMount(): void {
     this.setState({ isMounted: true })
@@ -139,14 +145,25 @@ export default class ReactPopper extends Component<
   }
 
   private eventHandler = (ev: any) => {
-    if (!containsOrEqual(this.popperRef, ev.target)) {
-      if (!containsOrEqual(this.referenceEl, ev.target)) {
-        this.hide()
-      } else if (this.isHover) {
-        this.show()
-      } else {
-        this.toggle()
+    if (!this.props.forceShow) {
+      if (!containsOrEqual(this.popperRef, ev.target)) {
+        if (!containsOrEqual(this.referenceEl, ev.target)) {
+          this.hide()
+        } else if (this.isHover) {
+          this.show()
+        } else {
+          this.toggle()
+        }
       }
     }
+  }
+
+  private get visible() {
+    return this.props.forceShow || this.state.visible
+  }
+
+  private afterToggle = (prevVisible: boolean) => {
+    if (this.props.afterToggle && prevVisible !== this.visible)
+      this.props.afterToggle(this.visible)
   }
 }

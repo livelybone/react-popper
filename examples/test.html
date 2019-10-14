@@ -60,9 +60,10 @@ function Comp(props) {
       cr(ReactPopper.default, {
         ref: popper,
         trigger: ReactPopper.TriggerType.hover,
-        forceShow: true,
+        // forceShow: true,
         placement: 'bottom-start',
         arrowPosition: 'middle',
+        afterToggle: console.log,
       }, (props) => {
         window.popperRef = props.popperRef
         return 'popper'
