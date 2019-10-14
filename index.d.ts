@@ -65,6 +65,13 @@ interface ReactPopperProps {
    * Default: 15
    * */
   arrowOffset?: number
+
+  /**
+   * popper 显示/隐藏之后触发的回调
+   *
+   * The callback triggered after popper's show/hide
+   * */
+  afterToggle?(visible: boolean): void
 }
 
 declare class ReactPopper extends Component<
@@ -112,6 +119,8 @@ declare class ReactPopper extends Component<
   render(): JSX.Element
 
   private eventHandler
+  private readonly visible
+  private afterToggle
 }
 
 declare function arrowModifier(
