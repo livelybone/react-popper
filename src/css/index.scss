@@ -83,7 +83,7 @@ $shadow: 0 size(1) size(5) darken($border-color, 10);
     (bottom, top, left), (left, right, top), (right, left, top)
   {
     &[data-placement^='#{$placement}'] {
-      margin-#{$arr-position}: size(1);
+      margin-#{$arr-position}: size(10);
 
       .arrow {
         @include pseudo($border-color, $arr-position);
