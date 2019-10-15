@@ -39,7 +39,6 @@ $shadow: 0 size(1) size(5) darken($border-color, 10);
 
 .react-popper {
   z-index: $z-index-top;
-  margin: size(10) 0 0;
   border-radius: $border-radius;
   background: #fff;
   box-shadow: $shadow;
