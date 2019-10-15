@@ -1,17 +1,16 @@
 # @livelybone/react-popper
 [![NPM Version](http://img.shields.io/npm/v/@livelybone/react-popper.svg?style=flat-square)](https://www.npmjs.com/package/@livelybone/react-popper)
 [![Download Month](http://img.shields.io/npm/dm/@livelybone/react-popper.svg?style=flat-square)](https://www.npmjs.com/package/@livelybone/react-popper)
-![gzip with dependencies: 14.4kb](https://img.shields.io/badge/gzip--with--dependencies-14.4kb-brightgreen.svg "gzip with dependencies: 14.4kb")
 ![typescript](https://img.shields.io/badge/typescript-supported-blue.svg "typescript")
 ![pkg.module](https://img.shields.io/badge/pkg.module-supported-blue.svg "pkg.module")
 
 > `pkg.module supported`, which means that you can apply tree-shaking in you project
 
-[中文文档](./README-CN.md)
+[English Document](./README.md)
 
-A wrap of [react-popper](http://npmjs.com/react-popper)
-1. achieved visible controlling via click/hover event or ref.show/ref.hide/ref.toggle
-2. achieved position controlling of arrow
+对 [react-popper](http://npmjs.com/react-popper) 的再封装
+1. 实现自动显示隐藏（通过 click/hover 事件），在组件外部可以通过 ref.show/ref.hide/ref.toggle 手动隐藏显示
+2. 实现 arrow 位置控制
 
 ## repository
 https://github.com/livelybone/react-popper.git
@@ -20,13 +19,13 @@ https://github.com/livelybone/react-popper.git
 https://github.com/livelybone/react-popper#readme
 
 ## Run Example
-Your can see the usage by run the example of the module, here is the step:
+你可以通过运行项目的 example 来了解这个组件的使用，以下是启动步骤：
 
-1. Clone the library `git clone https://github.com/livelybone/react-popper.git`
-2. Go to the directory `cd your-module-directory`
-3. Install npm dependencies `npm i`(use taobao registry: `npm i --registry=http://registry.npm.taobao.org`)
-4. Open service `npm run dev`
-5. See the example(usually is `http://127.0.0.1/examples/test.html`) in your browser
+1. 克隆项目到本地 `git clone https://github.com/livelybone/form.git`
+2. 进入本地克隆目录 `cd your-module-directory`
+3. 安装项目依赖 `npm i`(使用 taobao 源: `npm i --registry=http://registry.npm.taobao.org`)
+4. 启动服务 `npm run dev`
+5. 在你的浏览器看 example (地址通常是 `http://127.0.0.1:3000/examples/test.html`)
 
 ## Installation
 ```bash
@@ -37,7 +36,7 @@ npm i -S @livelybone/react-popper
 `ReactPopper`
 
 ## Interface
-See in [index.d.ts](./index.d.ts)
+去 [index.d.ts](./index.d.ts) 查看可用方法和参数
 
 ## Usage
 ```typescript jsx
@@ -196,27 +195,27 @@ interface PopperRefProps {
 ```
 
 ## style
-For building style, you can use the css or scss file in lib directory.
+你可能需要主动引入样式文件来应用组件的样式：
 ```js
 // scss
-import 'node_modules/@livelybone/react-popper/lib/css/index.scss'
+import 'node_modules/@auraxy/react-select/lib/css/index.scss'
 
 // css
-import 'node_modules/@livelybone/react-popper/lib/css/index.css'
+import 'node_modules/@auraxy/react-select/lib/css/index.css'
 ```
 Or
 ```scss
 // scss
-@import 'node_modules/@livelybone/react-popper/lib/css/index.scss';
+@import 'node_modules/@auraxy/react-select/lib/css/index.scss';
 
 // css
-@import 'node_modules/@livelybone/react-popper/lib/css/index.css';
+@import 'node_modules/@auraxy/react-select/lib/css/index.css';
 ```
 
-Or, you can build your custom style by copying and editing `index.scss`
+你也可以通过引入自定义的组件样式文件来自定义样式，文件可以通过复制并修改 `node_modules/@auraxy/react-select/lib/css/index.scss` 得到
 
 ## QA
 
 1. Error `Error: spawn node-sass ENOENT`
 
-> You may need install node-sass globally, `npm i -g node-sass`
+> 你可能需要全局安装 node-sass，`npm i -g node-sass`
