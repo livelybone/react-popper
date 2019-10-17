@@ -10,7 +10,11 @@ export default class ReactPopper extends Component<
 > {
   private popperRef?: HTMLDivElement
   private arrowRef?: HTMLDivElement
-  scheduleUpdate?: () => void
+
+  /**
+   * scheduleUpdate of popper
+   * */
+  scheduleUpdate!: () => void
 
   constructor(props: ReactPopperProps) {
     super(props)
@@ -78,7 +82,7 @@ export default class ReactPopper extends Component<
       preState => ({ visible: !preState.visible }),
       () => {
         this.afterToggle(this.visible)
-        this.scheduleUpdate!()
+        this.scheduleUpdate()
       },
     )
 
@@ -127,9 +131,10 @@ export default class ReactPopper extends Component<
               }}
               className={`react-popper ${className || ''} ${
                 forceShow ? 'force-show' : ''
-              } ${!isMounted || !visible ? 'hide' : 'show'}`
-                .trim()
-                .replace(/\s\s+/g, ' ')}
+              } ${!isMounted || !visible ? 'hide' : 'show'}`.replace(
+                /\s+(?=(\s|$))/g,
+                '',
+              )}
               style={style}
               data-placement={$placement}
             >
