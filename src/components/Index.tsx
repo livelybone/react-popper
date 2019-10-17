@@ -56,35 +56,38 @@ export default class ReactPopper extends Component<
    * <ReactPopper ref={compInstance => ref = compInstance}></ReactPopper>
    * ref.show()
    * */
-  show = () =>
+  show = () => {
+    const visible = this.visible
     this.setState({ visible: true }, () => {
-      this.afterToggle(this.visible)
+      this.afterToggle(visible)
       this.scheduleUpdate!()
     })
+  }
 
   /**
    * Hide the popper
    *
    * Use it outside the component: same as method show
    * */
-  hide = () =>
-    this.setState({ visible: false }, () => {
-      this.afterToggle(this.visible)
-    })
+  hide = () => {
+    this.setState({ visible: false }, this.afterToggle.bind(null, this.visible))
+  }
 
   /**
    * Toggle the popper
    *
    * Use it outside the component: same as method show
    * */
-  toggle = () =>
+  toggle = () => {
+    const visible = this.visible
     this.setState(
       preState => ({ visible: !preState.visible }),
       () => {
-        this.afterToggle(this.visible)
+        this.afterToggle(visible)
         this.scheduleUpdate()
       },
     )
+  }
 
   componentDidMount(): void {
     this.setState({ isMounted: true })
