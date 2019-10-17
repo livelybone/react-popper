@@ -83,6 +83,7 @@ declare class ReactPopper extends Component<
 > {
   private popperRef?
   private arrowRef?
+  scheduleUpdate?: () => void
 
   constructor(props: ReactPopperProps)
 

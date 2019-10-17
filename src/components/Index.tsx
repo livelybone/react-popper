@@ -10,6 +10,7 @@ export default class ReactPopper extends Component<
 > {
   private popperRef?: HTMLDivElement
   private arrowRef?: HTMLDivElement
+  scheduleUpdate?: () => void
 
   constructor(props: ReactPopperProps) {
     super(props)
@@ -52,7 +53,10 @@ export default class ReactPopper extends Component<
    * ref.show()
    * */
   show = () =>
-    this.setState({ visible: true }, this.afterToggle.bind(null, this.visible))
+    this.setState({ visible: true }, () => {
+      this.afterToggle(this.visible)
+      this.scheduleUpdate!()
+    })
 
   /**
    * Hide the popper
@@ -60,7 +64,9 @@ export default class ReactPopper extends Component<
    * Use it outside the component: same as method show
    * */
   hide = () =>
-    this.setState({ visible: false }, this.afterToggle.bind(null, this.visible))
+    this.setState({ visible: false }, () => {
+      this.afterToggle(this.visible)
+    })
 
   /**
    * Toggle the popper
@@ -70,7 +76,10 @@ export default class ReactPopper extends Component<
   toggle = () =>
     this.setState(
       preState => ({ visible: !preState.visible }),
-      this.afterToggle.bind(null, this.visible),
+      () => {
+        this.afterToggle(this.visible)
+        this.scheduleUpdate!()
+      },
     )
 
   componentDidMount(): void {
@@ -109,7 +118,7 @@ export default class ReactPopper extends Component<
             arrowProps,
             scheduleUpdate,
           } = props
-          scheduleUpdate()
+          this.scheduleUpdate = scheduleUpdate
           return (
             <div
               ref={(el: HTMLDivElement) => {
