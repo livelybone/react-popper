@@ -18,7 +18,7 @@ export default class ReactPopper extends Component<
   constructor(props: ReactPopperProps) {
     super(props)
     this.state = {
-      visible: false,
+      visible: !!this.props.forceShow,
       isMounted: false,
     }
   }
