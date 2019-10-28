@@ -8,13 +8,12 @@ export default class ReactPopper extends Component<
   ReactPopperProps,
   { visible: boolean; isMounted: boolean }
 > {
-  private popperRef?: HTMLDivElement
-  private arrowRef?: HTMLDivElement
-
   /**
    * scheduleUpdate of popper
    * */
   scheduleUpdate!: () => void
+  private popperRef?: HTMLDivElement
+  private arrowRef?: HTMLDivElement
 
   constructor(props: ReactPopperProps) {
     super(props)
@@ -46,6 +45,15 @@ export default class ReactPopper extends Component<
         fn: arrowModifier.bind(null, arrowPosition, arrowOffset),
       },
     }
+  }
+
+  private get visible() {
+    return this.props.forceShow || this.state.visible
+  }
+
+  static getDerivedStateFromProps(nextProps: any) {
+    if (nextProps.forceShow) return { visible: nextProps.forceShow }
+    return null
   }
 
   /**
@@ -173,10 +181,6 @@ export default class ReactPopper extends Component<
         }
       }
     }
-  }
-
-  private get visible() {
-    return this.props.forceShow || this.state.visible
   }
 
   private afterToggle = (prevVisible: boolean) => {
