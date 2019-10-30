@@ -170,15 +170,13 @@ export default class ReactPopper extends Component<
   }
 
   private eventHandler = (ev: any) => {
-    if (!this.props.forceShow) {
-      if (!containsOrEqual(this.popperRef, ev.target)) {
-        if (!containsOrEqual(this.referenceEl, ev.target)) {
-          this.hide()
-        } else if (this.isHover) {
-          this.show()
-        } else {
-          this.toggle()
-        }
+    if (!containsOrEqual(this.popperRef, ev.target)) {
+      if (!containsOrEqual(this.referenceEl, ev.target)) {
+        this.hide()
+      } else if (this.isHover) {
+        this.show()
+      } else {
+        this.toggle()
       }
     }
   }

@@ -1,6 +1,6 @@
 {
   "name": "@livelybone/react-popper",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "A wrap of react-popper, achieved visible controlling via click/hover event or ref.show/ref.hide/ref.toggle",
   "main": "./lib/umd/index.js",
   "module": "./lib/es/index.js",
