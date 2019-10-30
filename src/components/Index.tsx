@@ -18,7 +18,7 @@ export default class ReactPopper extends Component<
   constructor(props: ReactPopperProps) {
     super(props)
     this.state = {
-      visible: !!this.props.forceShow,
+      visible: false,
       isMounted: false,
     }
   }
@@ -49,11 +49,6 @@ export default class ReactPopper extends Component<
 
   private get visible() {
     return this.props.forceShow || this.state.visible
-  }
-
-  static getDerivedStateFromProps(nextProps: any) {
-    if (nextProps.forceShow) return { visible: nextProps.forceShow }
-    return null
   }
 
   /**
