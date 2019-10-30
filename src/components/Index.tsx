@@ -173,6 +173,8 @@ export default class ReactPopper extends Component<
       } else {
         this.toggle()
       }
+    } else {
+      this.show()
     }
   }
 
