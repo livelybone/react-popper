@@ -14,7 +14,10 @@ export default class ReactPopper extends Component<
   scheduleUpdate!: () => void
   private popperRef?: HTMLDivElement
   private arrowRef?: HTMLDivElement
-  private timer: any
+  private timer: { type: 'show' | 'hide' | ''; id: any } = {
+    type: '',
+    id: null,
+  }
 
   constructor(props: ReactPopperProps) {
     super(props)
@@ -69,15 +72,22 @@ export default class ReactPopper extends Component<
    * ref.show()
    * */
   show = () => {
-    clearTimeout(this.timer)
-    const visible = this.visible
-    const fn = () =>
-      this.setState({ visible: true }, () => {
-        this.afterToggle(visible)
-        this.scheduleUpdate!()
-      })
-    if (this.delayShow) this.timer = setTimeout(fn, this.delayShow)
-    else fn()
+    if (
+      (!this.delayShow && !this.state.visible) ||
+      this.timer.type !== 'show'
+    ) {
+      clearTimeout(this.timer.id)
+      const fn = () => {
+        const visible = this.visible
+        this.setState({ visible: true }, () => {
+          this.afterToggle(visible)
+          this.scheduleUpdate!()
+        })
+      }
+      if (this.delayShow) this.timer.id = setTimeout(fn, this.delayShow)
+      else fn()
+      this.timer.type = 'show'
+    }
   }
 
   /**
@@ -86,14 +96,18 @@ export default class ReactPopper extends Component<
    * Use it outside the component: same as method show
    * */
   hide = () => {
-    clearTimeout(this.timer)
-    const fn = () =>
-      this.setState(
-        { visible: false },
-        this.afterToggle.bind(null, this.visible),
-      )
-    if (this.delayHide) this.timer = setTimeout(fn, this.delayHide)
-    else fn()
+    if ((!this.delayHide && this.state.visible) || this.timer.type !== 'hide') {
+      clearTimeout(this.timer.id)
+      const fn = () => {
+        this.setState(
+          { visible: false },
+          this.afterToggle.bind(null, this.visible),
+        )
+      }
+      if (this.delayHide) this.timer.id = setTimeout(fn, this.delayHide)
+      else fn()
+      this.timer.type = 'hide'
+    }
   }
 
   /**
@@ -180,16 +194,10 @@ export default class ReactPopper extends Component<
 
   private eventHandler = (ev: any) => {
     if (!containsOrEqual(this.popperRef, ev.target)) {
-      if (!containsOrEqual(this.referenceEl, ev.target)) {
-        this.hide()
-      } else if (this.isHover) {
-        this.show()
-      } else {
-        this.toggle()
-      }
-    } else {
-      this.show()
-    }
+      if (!containsOrEqual(this.referenceEl, ev.target)) this.hide()
+      else if (this.isHover) this.show()
+      else this.toggle()
+    } else this.show()
   }
 
   private afterToggle = (prevVisible: boolean) => {

@@ -32,6 +32,17 @@
   </style>
 </head>
 <body>
+<div>a</div>
+<div>a</div>
+<div>a</div>
+<div>a</div>
+<div>a</div>
+<div>a</div>
+<div>a</div>
+<div>a</div>
+<div>a</div>
+<div>a</div>
+<div>a</div>
 <div id="module"></div>
 
 <script>
@@ -68,6 +79,7 @@ function Comp(props) {
         placement: 'bottom-start',
         arrowPosition: 'middle',
         afterToggle: console.log,
+        delayHide: 500
       }, (props) => {
         window.popperRef = props.popperRef
         return 'popper'
