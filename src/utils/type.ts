@@ -34,7 +34,9 @@ export interface ReactPopperProps {
    *
    * Delay to hide
    *
-   * Default: 0
+   * Default:
+   *  If trigger === TriggerType.hover, default is 200
+   *  Else default is 0
    * */
   delayHide?: number
   className?: string

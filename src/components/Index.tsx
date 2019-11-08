@@ -57,7 +57,7 @@ export default class ReactPopper extends Component<
   }
 
   private get delayHide() {
-    return this.props.delayHide || 0
+    return this.props.delayHide || (this.isHover ? 200 : 0)
   }
 
   /**
