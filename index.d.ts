@@ -22,6 +22,22 @@ interface ReactPopperProps {
    * Default: TriggerType.click
    * */
   trigger?: TriggerType
+  /**
+   * 延迟显示
+   *
+   * Delay to show
+   *
+   * Default: 0
+   * */
+  delayShow?: number
+  /**
+   * 延迟隐藏
+   *
+   * Delay to hide
+   *
+   * Default: 0
+   * */
+  delayHide?: number
   className?: string
   /**
    * Popper 的位置
@@ -81,12 +97,13 @@ declare class ReactPopper extends Component<
     isMounted: boolean
   }
 > {
-  private popperRef?
-  private arrowRef?
   /**
    * scheduleUpdate of popper
    * */
   scheduleUpdate: () => void
+  private popperRef?
+  private arrowRef?
+  private timer
 
   constructor(props: ReactPopperProps)
 
@@ -94,6 +111,9 @@ declare class ReactPopper extends Component<
   private readonly isHover
   private readonly eventName
   private readonly modifiers
+  private readonly visible
+  private readonly delayShow
+  private readonly delayHide
   /**
    * Show the popper
    *
@@ -123,7 +143,6 @@ declare class ReactPopper extends Component<
   render(): JSX.Element
 
   private eventHandler
-  private readonly visible
   private afterToggle
 }
 

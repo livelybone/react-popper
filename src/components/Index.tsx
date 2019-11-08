@@ -14,6 +14,7 @@ export default class ReactPopper extends Component<
   scheduleUpdate!: () => void
   private popperRef?: HTMLDivElement
   private arrowRef?: HTMLDivElement
+  private timer: any
 
   constructor(props: ReactPopperProps) {
     super(props)
@@ -51,6 +52,14 @@ export default class ReactPopper extends Component<
     return this.props.forceShow || this.state.visible
   }
 
+  private get delayShow() {
+    return this.props.delayShow || 0
+  }
+
+  private get delayHide() {
+    return this.props.delayHide || 0
+  }
+
   /**
    * Show the popper
    *
@@ -60,11 +69,15 @@ export default class ReactPopper extends Component<
    * ref.show()
    * */
   show = () => {
+    clearTimeout(this.timer)
     const visible = this.visible
-    this.setState({ visible: true }, () => {
-      this.afterToggle(visible)
-      this.scheduleUpdate!()
-    })
+    const fn = () =>
+      this.setState({ visible: true }, () => {
+        this.afterToggle(visible)
+        this.scheduleUpdate!()
+      })
+    if (this.delayShow) this.timer = setTimeout(fn, this.delayShow)
+    else fn()
   }
 
   /**
@@ -73,7 +86,14 @@ export default class ReactPopper extends Component<
    * Use it outside the component: same as method show
    * */
   hide = () => {
-    this.setState({ visible: false }, this.afterToggle.bind(null, this.visible))
+    clearTimeout(this.timer)
+    const fn = () =>
+      this.setState(
+        { visible: false },
+        this.afterToggle.bind(null, this.visible),
+      )
+    if (this.delayHide) this.timer = setTimeout(fn, this.delayHide)
+    else fn()
   }
 
   /**
@@ -82,14 +102,8 @@ export default class ReactPopper extends Component<
    * Use it outside the component: same as method show
    * */
   toggle = () => {
-    const visible = this.visible
-    this.setState(
-      preState => ({ visible: !preState.visible }),
-      () => {
-        this.afterToggle(visible)
-        this.scheduleUpdate()
-      },
-    )
+    if (this.state.visible) this.hide()
+    else this.show()
   }
 
   componentDidMount(): void {

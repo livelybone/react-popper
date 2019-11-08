@@ -21,6 +21,22 @@ export interface ReactPopperProps {
    * Default: TriggerType.click
    * */
   trigger?: TriggerType
+  /**
+   * 延迟显示
+   *
+   * Delay to show
+   *
+   * Default: 0
+   * */
+  delayShow?: number
+  /**
+   * 延迟隐藏
+   *
+   * Delay to hide
+   *
+   * Default: 0
+   * */
+  delayHide?: number
   className?: string
   /**
    * Popper 的位置
