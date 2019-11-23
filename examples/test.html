@@ -51,6 +51,7 @@ var cr = React.createElement
 
 // do something ...
 function Comp(props) {
+  const ref = React.useRef(null)
   const state = React.useState({})
   const popper = React.useRef(null)
 
@@ -69,21 +70,24 @@ function Comp(props) {
     'div',
     {
       className: 'parent',
+      ref: ref,
     },
     [
       'parent',
-      cr(ReactPopper.default, {
+      ReactDOM.createPortal(cr(ReactPopper.default, {
         ref: popper,
+        referenceRef: () => ref.current,
         trigger: ReactPopper.TriggerType.hover,
         // forceShow: true,
         placement: 'bottom-start',
         arrowPosition: 'middle',
         afterToggle: console.log,
-        delayHide: 500
+        delayHide: 200,
+        delayShow: 200
       }, (props) => {
         window.popperRef = props.popperRef
         return 'popper'
-      }),
+      }), document.body),
     ]
   )
 }

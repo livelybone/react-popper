@@ -10,7 +10,8 @@ export function containsOrEqual<T extends PopperProps['referenceElement']>(
 
 export function getReferenceEl<T extends PopperProps['referenceElement']>(
   popperRef?: HTMLElement,
-  referenceRef?: T,
+  referenceRef?: T | (() => T),
 ) {
-  return referenceRef || (popperRef && popperRef.parentElement) || undefined
+  const ref = typeof referenceRef === 'function' ? referenceRef() : referenceRef
+  return ref || (popperRef && popperRef.parentElement) || undefined
 }

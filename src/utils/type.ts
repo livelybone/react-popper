@@ -55,7 +55,9 @@ export interface ReactPopperProps {
    *
    * Default: The parent element of the component element
    * */
-  referenceRef?: PopperProps['referenceElement']
+  referenceRef?:
+    | PopperProps['referenceElement']
+    | (() => PopperProps['referenceElement'])
   children?: ReactNode
   /**
    * Modifiers config of popperjs

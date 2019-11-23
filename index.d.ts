@@ -1,6 +1,6 @@
-import PopperJs from 'popper.js'
 import { Component, ReactNode } from 'react'
 import { PopperProps } from 'react-popper'
+import PopperJs from 'popper.js'
 
 declare enum TriggerType {
   click = 0,
@@ -56,7 +56,9 @@ interface ReactPopperProps {
    *
    * Default: The parent element of the component element
    * */
-  referenceRef?: PopperProps['referenceElement']
+  referenceRef?:
+    | PopperProps['referenceElement']
+    | (() => PopperProps['referenceElement'])
   children?: ReactNode
   /**
    * Modifiers config of popperjs
@@ -170,7 +172,7 @@ declare function containsOrEqual<T extends PopperProps['referenceElement']>(
 
 declare function getReferenceEl<T extends PopperProps['referenceElement']>(
   popperRef?: HTMLElement,
-  referenceRef?: T,
+  referenceRef?: T | (() => T),
 ): HTMLElement | T | undefined
 
 export default ReactPopper
