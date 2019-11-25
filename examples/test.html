@@ -54,6 +54,7 @@ function Comp(props) {
   const ref = React.useRef(null)
   const state = React.useState({})
   const popper = React.useRef(null)
+  const destroy = React.useState(false)
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -74,7 +75,7 @@ function Comp(props) {
     },
     [
       'parent',
-      ReactDOM.createPortal(cr(ReactPopper.default, {
+      !destroy[0] && ReactDOM.createPortal(cr(ReactPopper.default, {
         ref: popper,
         referenceRef: () => ref.current,
         trigger: ReactPopper.TriggerType.hover,
@@ -88,6 +89,9 @@ function Comp(props) {
         window.popperRef = props.popperRef
         return 'popper'
       }), document.body),
+            cr('div', {
+              onClick: () => destroy[1](true)
+            }, ['destroy'])
     ]
   )
 }

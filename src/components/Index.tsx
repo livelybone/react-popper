@@ -78,11 +78,13 @@ export default class ReactPopper extends Component<
     ) {
       clearTimeout(this.timer.id)
       const fn = () => {
-        const visible = this.visible
-        this.setState({ visible: true }, () => {
-          this.afterToggle(visible)
-          this.scheduleUpdate!()
-        })
+        if (this.popperRef) {
+          const visible = this.visible
+          this.setState({ visible: true }, () => {
+            this.afterToggle(visible)
+            this.scheduleUpdate!()
+          })
+        }
       }
       if (this.delayShow) this.timer.id = setTimeout(fn, this.delayShow)
       else fn()
@@ -99,10 +101,12 @@ export default class ReactPopper extends Component<
     if ((!this.delayHide && this.state.visible) || this.timer.type !== 'hide') {
       clearTimeout(this.timer.id)
       const fn = () => {
-        this.setState(
-          { visible: false },
-          this.afterToggle.bind(null, this.visible),
-        )
+        if (this.popperRef) {
+          this.setState(
+            { visible: false },
+            this.afterToggle.bind(null, this.visible),
+          )
+        }
       }
       if (this.delayHide) this.timer.id = setTimeout(fn, this.delayHide)
       else fn()
