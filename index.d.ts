@@ -1,6 +1,7 @@
 import { Component, ReactNode } from 'react'
 import { PopperProps } from 'react-popper'
-import PopperJs from 'popper.js'
+import * as PopperJs from 'popper.js'
+import PopperJs$1 from 'popper.js'
 
 declare enum TriggerType {
   click = 0,
@@ -105,19 +106,22 @@ declare class ReactPopper extends Component<
    * scheduleUpdate of popper
    * */
   scheduleUpdate: () => void
-  private popperRef?
-  private arrowRef?
-  private timer
+  popperRef?: HTMLDivElement
+  arrowRef?: HTMLDivElement
+  timer: {
+    type: 'show' | 'hide' | ''
+    id: any
+  }
 
   constructor(props: ReactPopperProps)
 
-  private readonly referenceEl
-  private readonly isHover
-  private readonly eventName
-  private readonly modifiers
-  private readonly visible
-  private readonly delayShow
-  private readonly delayHide
+  readonly referenceEl: HTMLElement | PopperJs | undefined
+  readonly isHover: boolean
+  readonly eventName: 'mouseover' | 'click'
+  readonly modifiers: PopperProps['modifiers']
+  readonly visible: boolean
+  readonly delayShow: number
+  readonly delayHide: number
   /**
    * Show the popper
    *
@@ -154,12 +158,12 @@ declare function arrowModifier(
   arrowPosition: ReactPopperProps['arrowPosition'],
   arrowOffset: ReactPopperProps['arrowOffset'],
   ...[dataObject, options]: Parameters<
-    NonNullable<NonNullable<PopperJs.Modifiers['arrow']>['fn']>
+    NonNullable<NonNullable<PopperJs$1.Modifiers['arrow']>['fn']>
   >
-): PopperJs.Data
+): PopperJs$1.Data
 
 declare function convertPos(
-  data: PopperJs.Data,
+  data: PopperJs$1.Data,
   type: 'left' | 'top',
   arrowPosition?: ReactPopperProps['arrowPosition'],
   arrowOffset?: ReactPopperProps['arrowOffset'],

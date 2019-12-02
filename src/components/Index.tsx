@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Popper } from 'react-popper'
+import { Popper, PopperProps } from 'react-popper'
 import { arrowModifier } from '../utils/modifiers'
 import { ReactPopperProps, TriggerType } from '../utils/type'
 import { containsOrEqual, getReferenceEl } from '../utils/utils'
@@ -12,9 +12,9 @@ export default class ReactPopper extends Component<
    * scheduleUpdate of popper
    * */
   scheduleUpdate!: () => void
-  private popperRef?: HTMLDivElement
-  private arrowRef?: HTMLDivElement
-  private timer: { type: 'show' | 'hide' | ''; id: any } = {
+  popperRef?: HTMLDivElement
+  arrowRef?: HTMLDivElement
+  timer: { type: 'show' | 'hide' | ''; id: any } = {
     type: '',
     id: null,
   }
@@ -27,19 +27,19 @@ export default class ReactPopper extends Component<
     }
   }
 
-  private get referenceEl() {
+  get referenceEl() {
     return getReferenceEl(this.popperRef, this.props.referenceRef)
   }
 
-  private get isHover() {
+  get isHover() {
     return this.props.trigger === TriggerType.hover
   }
 
-  private get eventName() {
+  get eventName() {
     return this.isHover ? 'mouseover' : 'click'
   }
 
-  private get modifiers() {
+  get modifiers(): PopperProps['modifiers'] {
     const { modifiers, arrowOffset, arrowPosition } = this.props
     return {
       ...modifiers,
@@ -51,15 +51,15 @@ export default class ReactPopper extends Component<
     }
   }
 
-  private get visible() {
+  get visible() {
     return this.props.forceShow || this.state.visible
   }
 
-  private get delayShow() {
+  get delayShow() {
     return this.props.delayShow || 0
   }
 
-  private get delayHide() {
+  get delayHide() {
     return this.props.delayHide || (this.isHover ? 200 : 0)
   }
 

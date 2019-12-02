@@ -55,6 +55,7 @@ function Comp(props) {
   const state = React.useState({})
   const popper = React.useRef(null)
   const destroy = React.useState(false)
+  const [show, setShow] = React.useState(false)
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -78,11 +79,14 @@ function Comp(props) {
       !destroy[0] && ReactDOM.createPortal(cr(ReactPopper.default, {
         ref: popper,
         referenceRef: () => ref.current,
-        trigger: ReactPopper.TriggerType.hover,
-        // forceShow: true,
+        trigger: ReactPopper.TriggerType.click,
+        forceShow: show,
         placement: 'bottom-start',
         arrowPosition: 'middle',
-        afterToggle: console.log,
+        afterToggle: (visible) => {
+          console.log(visible)
+          setShow(visible)
+        },
         delayHide: 200,
         delayShow: 200
       }, (props) => {
