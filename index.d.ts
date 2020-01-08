@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react'
-import { PopperProps } from 'react-popper'
+import { PopperChildrenProps, PopperProps } from 'react-popper'
 import * as PopperJs from 'popper.js'
 import PopperJs$1 from 'popper.js'
 
@@ -60,7 +60,13 @@ interface ReactPopperProps {
   referenceRef?:
     | PopperProps['referenceElement']
     | (() => PopperProps['referenceElement'])
-  children?: ReactNode
+  children?:
+    | ((
+        props: PopperChildrenProps & {
+          popperRef: any
+        },
+      ) => ReactNode)
+    | ReactNode
   /**
    * Modifiers config of popperjs
    * See in https://popper.js.org/popper-documentation.html#Popper.Defaults.modifiers

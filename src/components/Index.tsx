@@ -187,7 +187,7 @@ export default class ReactPopper extends Component<
                 style={arrowProps.style}
               />
               {typeof children === 'function'
-                ? children({ ...props, popperRef: this })
+                ? (children as Function)({ ...props, popperRef: this })
                 : children}
             </div>
           )

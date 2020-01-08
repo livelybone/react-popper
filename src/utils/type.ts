@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { PopperProps } from 'react-popper'
+import { PopperChildrenProps, PopperProps } from 'react-popper'
 
 export enum TriggerType {
   click,
@@ -58,7 +58,9 @@ export interface ReactPopperProps {
   referenceRef?:
     | PopperProps['referenceElement']
     | (() => PopperProps['referenceElement'])
-  children?: ReactNode
+  children?:
+    | ((props: PopperChildrenProps & { popperRef: any }) => ReactNode)
+    | ReactNode
   /**
    * Modifiers config of popperjs
    * See in https://popper.js.org/popper-documentation.html#Popper.Defaults.modifiers
@@ -84,6 +86,7 @@ export interface ReactPopperProps {
    * Default: 15
    * */
   arrowOffset?: number
+
   /**
    * popper 显示/隐藏之后触发的回调
    *
