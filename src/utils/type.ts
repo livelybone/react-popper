@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import { PopperChildrenProps, PopperProps } from 'react-popper'
+import ReactPopper from '../index'
 
 export enum TriggerType {
   click,
@@ -59,7 +60,7 @@ export interface ReactPopperProps {
     | PopperProps['referenceElement']
     | (() => PopperProps['referenceElement'])
   children?:
-    | ((props: PopperChildrenProps & { popperRef: any }) => ReactNode)
+    | ((props: PopperChildrenProps & { popperRef: ReactPopper }) => ReactNode)
     | ReactNode
   /**
    * Modifiers config of popperjs

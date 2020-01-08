@@ -63,7 +63,7 @@ interface ReactPopperProps {
   children?:
     | ((
         props: PopperChildrenProps & {
-          popperRef: any
+          popperRef: ReactPopper
         },
       ) => ReactNode)
     | ReactNode
