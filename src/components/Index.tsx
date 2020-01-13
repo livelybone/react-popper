@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, MouseEvent } from 'react'
 import { Popper, PopperProps } from 'react-popper'
 import { arrowModifier } from '../utils/modifiers'
 import { ReactPopperProps, TriggerType } from '../utils/type'
@@ -63,6 +63,10 @@ export default class ReactPopper extends Component<
     return this.props.delayHide || (this.isHover ? 200 : 0)
   }
 
+  get shouldToggle() {
+    return this.props.shouldToggle || (() => true)
+  }
+
   /**
    * Show the popper
    *
@@ -71,8 +75,9 @@ export default class ReactPopper extends Component<
    * <ReactPopper ref={compInstance => ref = compInstance}></ReactPopper>
    * ref.show()
    * */
-  show = () => {
+  show = (ev?: MouseEvent<any>) => {
     if (
+      this.shouldToggle(true, this, ev) ||
       (!this.delayShow && !this.state.visible) ||
       this.timer.type !== 'show'
     ) {
@@ -97,8 +102,12 @@ export default class ReactPopper extends Component<
    *
    * Use it outside the component: same as method show
    * */
-  hide = () => {
-    if ((!this.delayHide && this.state.visible) || this.timer.type !== 'hide') {
+  hide = (ev?: MouseEvent<any>) => {
+    if (
+      this.shouldToggle(false, this, ev) ||
+      (!this.delayHide && this.state.visible) ||
+      this.timer.type !== 'hide'
+    ) {
       clearTimeout(this.timer.id)
       const fn = () => {
         if (this.popperRef) {
@@ -119,9 +128,9 @@ export default class ReactPopper extends Component<
    *
    * Use it outside the component: same as method show
    * */
-  toggle = () => {
-    if (this.state.visible) this.hide()
-    else this.show()
+  toggle = (ev?: MouseEvent<any>) => {
+    if (this.state.visible) this.hide(ev)
+    else this.show(ev)
   }
 
   componentDidMount(): void {
@@ -198,14 +207,14 @@ export default class ReactPopper extends Component<
 
   private eventHandler = (ev: any) => {
     if (!containsOrEqual(this.popperRef, ev.target)) {
-      if (!containsOrEqual(this.referenceEl, ev.target)) this.hide()
-      else if (this.isHover) this.show()
-      else this.toggle()
-    } else this.show()
+      if (!containsOrEqual(this.referenceEl, ev.target)) this.hide(ev)
+      else if (this.isHover) this.show(ev)
+      else this.toggle(ev)
+    } else this.show(ev)
   }
 
   private afterToggle = (prevVisible: boolean) => {
     if (this.props.afterToggle && prevVisible !== this.visible)
-      this.props.afterToggle(this.visible)
+      this.props.afterToggle(this.visible, this)
   }
 }
