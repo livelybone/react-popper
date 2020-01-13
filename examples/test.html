@@ -83,6 +83,10 @@ function Comp(props) {
         forceShow: show,
         placement: 'bottom-start',
         arrowPosition: 'middle',
+        shouldToggle: (...args) => {
+          console.log(...args)
+          return false
+        },
         afterToggle: (visible) => {
           console.log(visible)
           setShow(visible)

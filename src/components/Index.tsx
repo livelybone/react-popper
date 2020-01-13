@@ -77,9 +77,8 @@ export default class ReactPopper extends Component<
    * */
   show = (ev?: React.MouseEvent<any>) => {
     if (
-      this.shouldToggle(true, this, ev) ||
-      (!this.delayShow && !this.state.visible) ||
-      this.timer.type !== 'show'
+      this.shouldToggle(true, this, ev) &&
+      ((!this.delayShow && !this.state.visible) || this.timer.type !== 'show')
     ) {
       clearTimeout(this.timer.id)
       const fn = () => {
@@ -104,9 +103,8 @@ export default class ReactPopper extends Component<
    * */
   hide = (ev?: React.MouseEvent<any>) => {
     if (
-      this.shouldToggle(false, this, ev) ||
-      (!this.delayHide && this.state.visible) ||
-      this.timer.type !== 'hide'
+      this.shouldToggle(false, this, ev) &&
+      ((!this.delayHide && this.state.visible) || this.timer.type !== 'hide')
     ) {
       clearTimeout(this.timer.id)
       const fn = () => {

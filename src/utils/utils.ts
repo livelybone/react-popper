@@ -5,7 +5,7 @@ export function containsOrEqual<T extends PopperProps['referenceElement']>(
   target?: HTMLElement,
 ) {
   if (!target || !(parent instanceof HTMLElement)) return false
-  return parent && (parent === target || parent.contains(target))
+  return parent && parent.contains(target)
 }
 
 export function getReferenceEl<T extends PopperProps['referenceElement']>(
