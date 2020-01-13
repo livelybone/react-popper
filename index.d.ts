@@ -1,4 +1,4 @@
-import { Component, ReactNode } from 'react'
+import React, { Component, ReactNode } from 'react'
 import { PopperChildrenProps, PopperProps } from 'react-popper'
 import * as PopperJs from 'popper.js'
 import PopperJs$1 from 'popper.js'
@@ -94,11 +94,20 @@ interface ReactPopperProps {
   arrowOffset?: number
 
   /**
+   * popper 显示/隐藏之前触发的回调，返回值确定是否应该显示或者隐藏
+   * */
+  shouldToggle?(
+    toVisible: boolean,
+    context: ReactPopper,
+    ev?: React.MouseEvent<any>,
+  ): boolean
+
+  /**
    * popper 显示/隐藏之后触发的回调
    *
    * The callback triggered after popper's show/hide
    * */
-  afterToggle?(visible: boolean): void
+  afterToggle?(visible: boolean, context: ReactPopper): void
 }
 
 declare class ReactPopper extends Component<
@@ -128,6 +137,7 @@ declare class ReactPopper extends Component<
   readonly visible: boolean
   readonly delayShow: number
   readonly delayHide: number
+  readonly shouldToggle: NonNullable<ReactPopperProps['shouldToggle']>
   /**
    * Show the popper
    *
@@ -136,19 +146,19 @@ declare class ReactPopper extends Component<
    * <ReactPopper ref={compInstance => ref = compInstance}></ReactPopper>
    * ref.show()
    * */
-  show: () => void
+  show: (ev?: React.MouseEvent<any, MouseEvent> | undefined) => void
   /**
    * Hide the popper
    *
    * Use it outside the component: same as method show
    * */
-  hide: () => void
+  hide: (ev?: React.MouseEvent<any, MouseEvent> | undefined) => void
   /**
    * Toggle the popper
    *
    * Use it outside the component: same as method show
    * */
-  toggle: () => void
+  toggle: (ev?: React.MouseEvent<any, MouseEvent> | undefined) => void
 
   componentDidMount(): void
 

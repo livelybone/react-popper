@@ -1,4 +1,4 @@
-import { MouseEvent, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { PopperChildrenProps, PopperProps } from 'react-popper'
 import ReactPopper from '../index'
 
@@ -92,9 +92,9 @@ export interface ReactPopperProps {
    * popper 显示/隐藏之前触发的回调，返回值确定是否应该显示或者隐藏
    * */
   shouldToggle?(
-    visible: boolean,
+    toVisible: boolean,
     context: ReactPopper,
-    ev?: MouseEvent<any>,
+    ev?: React.MouseEvent<any>,
   ): boolean
 
   /**

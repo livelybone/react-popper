@@ -1,4 +1,4 @@
-import React, { Component, MouseEvent } from 'react'
+import React, { Component } from 'react'
 import { Popper, PopperProps } from 'react-popper'
 import { arrowModifier } from '../utils/modifiers'
 import { ReactPopperProps, TriggerType } from '../utils/type'
@@ -63,7 +63,7 @@ export default class ReactPopper extends Component<
     return this.props.delayHide || (this.isHover ? 200 : 0)
   }
 
-  get shouldToggle() {
+  get shouldToggle(): NonNullable<ReactPopperProps['shouldToggle']> {
     return this.props.shouldToggle || (() => true)
   }
 
@@ -75,7 +75,7 @@ export default class ReactPopper extends Component<
    * <ReactPopper ref={compInstance => ref = compInstance}></ReactPopper>
    * ref.show()
    * */
-  show = (ev?: MouseEvent<any>) => {
+  show = (ev?: React.MouseEvent<any>) => {
     if (
       this.shouldToggle(true, this, ev) ||
       (!this.delayShow && !this.state.visible) ||
@@ -102,7 +102,7 @@ export default class ReactPopper extends Component<
    *
    * Use it outside the component: same as method show
    * */
-  hide = (ev?: MouseEvent<any>) => {
+  hide = (ev?: React.MouseEvent<any>) => {
     if (
       this.shouldToggle(false, this, ev) ||
       (!this.delayHide && this.state.visible) ||
@@ -128,7 +128,7 @@ export default class ReactPopper extends Component<
    *
    * Use it outside the component: same as method show
    * */
-  toggle = (ev?: MouseEvent<any>) => {
+  toggle = (ev?: React.MouseEvent<any>) => {
     if (this.state.visible) this.hide(ev)
     else this.show(ev)
   }
