@@ -1,13 +1,11 @@
-import React, { Component, ReactNode } from 'react'
-import { PopperChildrenProps, PopperProps } from 'react-popper'
-import * as PopperJs from 'popper.js'
-import PopperJs$1 from 'popper.js'
+import React, { ReactNode, Component } from 'react'
+import { PopperProps, PopperChildrenProps } from 'react-popper'
+import PopperJs from 'popper.js'
 
 declare enum TriggerType {
   click = 0,
   hover = 1,
 }
-
 interface ReactPopperProps {
   /**
    * 强制显示 popper 组件
@@ -92,7 +90,6 @@ interface ReactPopperProps {
    * Default: 15
    * */
   arrowOffset?: number
-
   /**
    * popper 显示/隐藏之前触发的回调，返回值确定是否应该显示或者隐藏
    * */
@@ -101,7 +98,6 @@ interface ReactPopperProps {
     context: ReactPopper,
     ev?: React.MouseEvent<any>,
   ): boolean
-
   /**
    * popper 显示/隐藏之后触发的回调
    *
@@ -127,10 +123,8 @@ declare class ReactPopper extends Component<
     type: 'show' | 'hide' | ''
     id: any
   }
-
   constructor(props: ReactPopperProps)
-
-  readonly referenceEl: HTMLElement | PopperJs | undefined
+  readonly referenceEl: PopperProps['referenceElement']
   readonly isHover: boolean
   readonly eventName: 'mouseover' | 'click'
   readonly modifiers: PopperProps['modifiers']
@@ -159,13 +153,9 @@ declare class ReactPopper extends Component<
    * Use it outside the component: same as method show
    * */
   toggle: (ev?: React.MouseEvent<any, MouseEvent> | undefined) => void
-
   componentDidMount(): void
-
   componentWillUnmount(): void
-
   render(): JSX.Element
-
   private eventHandler
   private afterToggle
 }
@@ -174,26 +164,26 @@ declare function arrowModifier(
   arrowPosition: ReactPopperProps['arrowPosition'],
   arrowOffset: ReactPopperProps['arrowOffset'],
   ...[dataObject, options]: Parameters<
-    NonNullable<NonNullable<PopperJs$1.Modifiers['arrow']>['fn']>
+    NonNullable<NonNullable<PopperJs.Modifiers['arrow']>['fn']>
   >
-): PopperJs$1.Data
-
+): PopperJs.Data
 declare function convertPos(
-  data: PopperJs$1.Data,
+  data: PopperJs.Data,
   type: 'left' | 'top',
   arrowPosition?: ReactPopperProps['arrowPosition'],
   arrowOffset?: ReactPopperProps['arrowOffset'],
 ): number
 
-declare function containsOrEqual<T extends PopperProps['referenceElement']>(
-  parent: T,
+declare function containsOrEqual(
+  parent: PopperProps['referenceElement'],
   target?: HTMLElement,
 ): boolean
-
-declare function getReferenceEl<T extends PopperProps['referenceElement']>(
+declare function getReferenceEl(
   popperRef?: HTMLElement,
-  referenceRef?: T | (() => T),
-): HTMLElement | T | undefined
+  referenceRef?:
+    | PopperProps['referenceElement']
+    | (() => PopperProps['referenceElement']),
+): PopperProps['referenceElement']
 
 export default ReactPopper
 export {

@@ -1,17 +1,19 @@
 import { PopperProps } from 'react-popper'
 
-export function containsOrEqual<T extends PopperProps['referenceElement']>(
-  parent: T,
+export function containsOrEqual(
+  parent: PopperProps['referenceElement'],
   target?: HTMLElement,
 ) {
   if (!target || !(parent instanceof HTMLElement)) return false
   return parent && parent.contains(target)
 }
 
-export function getReferenceEl<T extends PopperProps['referenceElement']>(
+export function getReferenceEl(
   popperRef?: HTMLElement,
-  referenceRef?: T | (() => T),
-) {
+  referenceRef?:
+    | PopperProps['referenceElement']
+    | (() => PopperProps['referenceElement']),
+): PopperProps['referenceElement'] {
   const ref = typeof referenceRef === 'function' ? referenceRef() : referenceRef
   return ref || (popperRef && popperRef.parentElement) || undefined
 }

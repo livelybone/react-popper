@@ -27,7 +27,7 @@ export default class ReactPopper extends Component<
     }
   }
 
-  get referenceEl() {
+  get referenceEl(): PopperProps['referenceElement'] {
     return getReferenceEl(this.popperRef, this.props.referenceRef)
   }
 
